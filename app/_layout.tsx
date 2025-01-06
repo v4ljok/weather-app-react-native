@@ -53,14 +53,14 @@ const App: React.FC = () => {
     } catch (error) {
       console.error('Failed to load settings:', error);
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
   const saveSettings = async () => {
     try {
-      await AsyncStorage.setItem('city', city); // Save the city
-      await AsyncStorage.setItem('isCelsius', JSON.stringify(isCelsius)); // Save the temperature unit
+      await AsyncStorage.setItem('city', city);
+      await AsyncStorage.setItem('isCelsius', JSON.stringify(isCelsius));
     } catch (error) {
       console.error('Failed to save settings:', error);
     }
@@ -73,12 +73,12 @@ const App: React.FC = () => {
       );
       if (!response.ok) {
         setError('Invalid city name. Please try again.');
-        return; // Exit if the city is invalid
+        return;
       }
       const data: WeatherData = await response.json();
       setWeather(data);
       setError(null);
-      await saveSettings(); // Save settings after fetching weather
+      await saveSettings();
     } catch (error) {
       console.error('Error fetching weather data:', error);
       setError('Unable to fetch weather data. Please try again later.');
@@ -125,7 +125,7 @@ const App: React.FC = () => {
   };
 
   const convertTemperature = (temp: number) => {
-    return isCelsius ? temp : temp * 1.8 + 32; // Celsius to Fahrenheit conversion
+    return isCelsius ? temp : temp * 1.8 + 32;
   };
 
   return (
@@ -149,7 +149,7 @@ const App: React.FC = () => {
             style={styles.settingsButton}
             onPress={() => {
               setIsCelsius(!isCelsius);
-              saveSettings(); // Save temperature unit preference
+              saveSettings();
             }}
           >
             <Text style={styles.settingsText}>
@@ -164,7 +164,7 @@ const App: React.FC = () => {
           </View>
         ) : weather ? (
           <>
-            {/* Current Weather */}
+
             <View style={styles.currentWeather}>
               <Text style={styles.cityName}>{weather.city.name}</Text>
               <Text style={styles.temperature}>
@@ -177,7 +177,6 @@ const App: React.FC = () => {
               </Text>
             </View>
 
-            {/* Hourly Forecast */}
             <View style={styles.hourlyForecast}>
               <Text style={styles.sectionTitle}>Hourly forecast</Text>
               <FlatList
@@ -207,7 +206,6 @@ const App: React.FC = () => {
               />
             </View>
 
-          {/* 10-Day Forecast */}
           <View style={styles.dailyForecast}>
             <Text style={styles.sectionTitle}>6-day forecast</Text>
             {weather.list
